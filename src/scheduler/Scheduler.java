@@ -34,7 +34,8 @@ import javax.swing.JTextField;
  *   variables.
  */
 public class Scheduler implements ActionListener {
-JFrame jeff = new JFrame();
+	//why is the JFrame named jeff name him bob
+JFrame bob = new JFrame();
 JButton add = new JButton();
 JButton view = new JButton();
 JButton remove = new JButton();
@@ -47,10 +48,10 @@ String addname;
 String addday;
 int addtime;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {//sign out of github next time
 new Scheduler().setup();
-    }
-    void setup(){
+    }//sign out of github next time
+    void setup(){//sign out of github next time
     	JPanel jepp = new JPanel();
 
     	
@@ -59,10 +60,11 @@ jepp.add(add);
 jepp.add(remove);
 jepp.add(view);
 jepp.add(other);
-jeff.add(jepp);
-jeff.pack();
-jeff.setVisible(true);
-jeff.setSize(350, 100);
+bob.add(jepp);
+bob.pack();
+bob.setVisible(true);
+bob.setSize(350, 100);
+bob.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 jetf.setVisible(false);
 
 add.addActionListener(this);
@@ -77,13 +79,13 @@ jetf.setVisible(false);
 add.setText("Add Event");
 view.setText("View Events");
 remove.setText("Remove Events");
-    }
+    }//sign out of github next time
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {//sign out of github next time
 		// TODO Auto-generated method stub
 		System.out.println(next);
 		
-		if(e.getSource()==add) {
+		if(e.getSource()==add) {//sign out of github next time
 			jetf.setText("Event name");
 			add.setVisible(false);
 			remove.setVisible(false);
@@ -93,30 +95,32 @@ remove.setText("Remove Events");
 			jetf.setVisible(true);
 			next=1;
 			System.out.println(next);
-		}
-		else if(e.getSource()==other) {
-			if(next==3) {
+		}//sign out of github next time
+		else if(e.getSource()==other) {//sign out of github next time
+			if(next==3) {//sign out of github next time
 				add.setVisible(true);
 				remove.setVisible(true);
 				view.setVisible(true);
 				other.setVisible(false);
 				jetf.setVisible(false);
 				String timeparse=jetf.getText();
-				times[] = timeparse.split(":");
-			}
-			else if(next==2) {
+				
+				String[] times = timeparse.split(":");
+			}//sign out of github next time
+			else if(next==2) {//sign out of github next time
 				addday=jetf.getText();
 				jetf.setText("Event time");
 				next =3;
-			}
-			else if(next==1) {
+			}//sign out of github next time
+			else if(next==1) {//sign out of github next time
 				
 				addname=jetf.getText();
 				jetf.setText("Event day");
 				next=2;
-			}
+			}//sign out of github next time
 			
 			
-		}
-	}
+		}//sign out of github next time
+	}//sign out of github next time
 }
+//sign out of github next time

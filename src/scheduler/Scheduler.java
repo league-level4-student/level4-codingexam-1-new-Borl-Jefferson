@@ -2,6 +2,8 @@ package scheduler;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -34,6 +36,8 @@ import javax.swing.JTextField;
  *   variables.
  */
 public class Scheduler implements ActionListener {
+	int time;
+	
 	//why is the JFrame named jeff name him bob
 JFrame bob = new JFrame();
 JButton add = new JButton();
@@ -46,6 +50,7 @@ JButton other = new JButton();
 
 String addname;
 String addday;
+String timeparse;
 int addtime;
 
     public static void main(String[] args) {//sign out of github next time
@@ -103,13 +108,20 @@ remove.setText("Remove Events");
 				view.setVisible(true);
 				other.setVisible(false);
 				jetf.setVisible(false);
-				String timeparse=jetf.getText();
+				 timeparse=jetf.getText();
 				
 				String[] times = timeparse.split(":");
+				int hour = Integer.parseInt(times[0]);
+				int min = Integer.parseInt(times[1]);
+				time=(hour*60)+min;
+				eventadd(addday);
+				eventsort(addday);
+				//eventsort(addday);
+				
 			}//sign out of github next time
 			else if(next==2) {//sign out of github next time
 				addday=jetf.getText();
-				jetf.setText("Event time");
+				jetf.setText("Event time (24h)");
 				next =3;
 			}//sign out of github next time
 			else if(next==1) {//sign out of github next time
@@ -122,5 +134,112 @@ remove.setText("Remove Events");
 			
 		}//sign out of github next time
 	}//sign out of github next time
+	
+	public void eventadd(String day) {
+		if(day=="Friday") {
+			Events.FRIDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
+		}
+		else if(day=="Saturday") {
+			Events.SATURDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
+		}
+		else if(day=="Sunday") {
+			Events.SUNDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
+		}
+		else if(day=="Monday") {
+			Events.MONDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
+		}
+		else if(day=="Tuesday") {
+			Events.TUESDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
+		}
+		else if(day=="Wednesday") {
+			Events.WEDNESDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
+		}
+		else if(day=="Thursday") {
+			Events.THURSDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
+		}
+	}
+	
+	public void eventsort(String day) {
+		
+		boolean rerun = false;
+		LinkedList ll;
+		LinkedList llc = new LinkedList();
+		Node nd;
+		Node llcn = null;
+		int time;
+		if(day=="Friday") {
+			ll=Events.FRIDAY.getlist();
+			int[] times = new int[ll.size()];
+			nd=Events.FRIDAY.getlist().getHead();
+			
+			while(rerun=false) {
+				
+				rerun=false;
+				
+				for(int i =0; i<ll.size()-1; i++) {
+					String st = (String) nd.getValue();
+					String[] split = st.split(st);
+					int hour = Integer.parseInt(split[1]);
+					int min = Integer.parseInt(split[2]);
+					time=(hour*60)+min;
+					times[i]=time;
+				}
+				for(int i =0; i<ll.size()-2; i++) {
+					if(rerun) {
+						llcn=llcn.getNext();
+						llc.add(llcn);
+					}
+					
+					if(times[i]>times[i+1] && rerun==false) {
+						int placehold = times[i];
+						times[i]=times[i+1];
+						times[i+1]=placehold;
+						
+						if(i!=0) {
+							llc.setHead(ll.getHead());
+							 llcn=llc.getHead();
+						for(int j=1; j<=i; j++) {
+							llcn=llcn.getNext();
+							llc.add(llcn);
+						}
+						llcn=llcn.getNext();
+						llc.add(llcn.getNext());
+						llc.add(llcn);
+						llcn=llcn.getNext();
+					}
+					rerun=true;
+					
+						
+					}
+					
+				}
+				
+				
+			}
+			
+			
+		}
+		
+		
+		else if(day=="Saturday") {
+			Events.SATURDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
+		}
+		else if(day=="Sunday") {
+			Events.SUNDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
+		}
+		else if(day=="Monday") {
+			Events.MONDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
+		}
+		else if(day=="Tuesday") {
+			Events.TUESDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
+		}
+		else if(day=="Wednesday") {
+			Events.WEDNESDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
+		}
+		else if(day=="Thursday") {
+			Events.THURSDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
+		}
+	}
+	
 }
 //sign out of github next time

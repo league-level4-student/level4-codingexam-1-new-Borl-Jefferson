@@ -89,7 +89,9 @@ remove.setText("Remove Events");
 	public void actionPerformed(ActionEvent e) {//sign out of github next time
 		// TODO Auto-generated method stub
 		System.out.println(next);
-		
+		if(e.getSource()==view) {
+			eventsort("Tuesday").print();
+		}
 		if(e.getSource()==add) {//sign out of github next time
 			jetf.setText("Event name");
 			add.setVisible(false);
@@ -115,6 +117,7 @@ remove.setText("Remove Events");
 				int min = Integer.parseInt(times[1]);
 				time=(hour*60)+min;
 				eventadd(addday);
+				Events.TUESDAY.getlist().print();
 				eventsort(addday);
 				//eventsort(addday);
 				
@@ -136,7 +139,8 @@ remove.setText("Remove Events");
 	}//sign out of github next time
 	
 	public void eventadd(String day) {
-		if(day=="Friday") {
+		System.out.println(day);
+	/*	if(day=="Friday") {
 			Events.FRIDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
 		}
 		else if(day=="Saturday") {
@@ -148,49 +152,60 @@ remove.setText("Remove Events");
 		else if(day=="Monday") {
 			Events.MONDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
 		}
-		else if(day=="Tuesday") {
-			Events.TUESDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}
+		else if(day=="Tuesday") {*/
+			System.out.println("works");
+			Events.TUESDAY.addtolist("\n" + addname + " on " + addday + ":"+timeparse);
+			
+		/*}
 		else if(day=="Wednesday") {
 			Events.WEDNESDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
 		}
 		else if(day=="Thursday") {
 			Events.THURSDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}
+		}*/
 	}
 	
-	public void eventsort(String day) {
+	public LinkedList<String> eventsort(String day) {
 		
-		boolean rerun = false;
-		LinkedList ll;
-		LinkedList llc = new LinkedList();
-		Node nd;
-		Node llcn = null;
+		boolean rerun = true;
+		LinkedList<String> ll=null;
+		LinkedList<String> llc = new LinkedList<String>();
+		Node<String> nd=null;
+		Node<String> llcn = null;
+		int[] times=null;
 		int time;
-		if(day=="Friday") {
-			ll=Events.FRIDAY.getlist();
-			int[] times = new int[ll.size()];
-			nd=Events.FRIDAY.getlist().getHead();
-			
-			while(rerun=false) {
+		//if(day=="Tuesday") {
+			ll=Events.TUESDAY.getlist();
+			times = new int[ll.size()];
+			nd=Events.TUESDAY.getlist().getHead();
+			llcn=ll.getHead();
+	//	}
+		
+			do {
 				
-				rerun=false;
 				
-				for(int i =0; i<ll.size()-1; i++) {
-					String st = (String) nd.getValue();
-					String[] split = st.split(st);
+				
+				for(int i =0; i<ll.size(); i++) {
+					String st = nd.getValue();
+					System.out.println("dfgergs | " +st);
+					String[] split = st.split(":");
 					int hour = Integer.parseInt(split[1]);
 					int min = Integer.parseInt(split[2]);
+					System.out.println("it is " + hour + " hours and "+min+" minutes");
 					time=(hour*60)+min;
 					times[i]=time;
+					nd=nd.getNext();
 				}
-				for(int i =0; i<ll.size()-2; i++) {
+				
+				for(int i =0; i<ll.size()-1; i++) {
 					if(rerun) {
-						llcn=llcn.getNext();
-						llc.add(llcn);
-					}
+						rerun=false;
+						
+						//llc.add(llcn.getValue());
 					
-					if(times[i]>times[i+1] && rerun==false) {
+					System.out.println("!si!");
+					if(times[i]>times[i+1]) {
+						System.out.println("Jaa");
 						int placehold = times[i];
 						times[i]=times[i+1];
 						times[i+1]=placehold;
@@ -200,46 +215,46 @@ remove.setText("Remove Events");
 							 llcn=llc.getHead();
 						for(int j=1; j<=i; j++) {
 							llcn=llcn.getNext();
-							llc.add(llcn);
+							llc.add(llcn.getValue());
 						}
 						llcn=llcn.getNext();
-						llc.add(llcn.getNext());
-						llc.add(llcn);
+						llc.add(llcn.getNext().getValue());
+						llc.add(llcn.getValue());
 						llcn=llcn.getNext();
 					}
 					rerun=true;
 					
 						
 					}
-					
-				}
+					else {
+						llc.add(llcn.getValue());
+					}
+					llcn=llcn.getNext();
+					llc.add(llcn.getValue());
+					}
 				
 				
 			}
 			
-			
-		}
+			}while(rerun=false);
 		
-		
-		else if(day=="Saturday") {
-			Events.SATURDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}
-		else if(day=="Sunday") {
-			Events.SUNDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}
-		else if(day=="Monday") {
-			Events.MONDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}
-		else if(day=="Tuesday") {
-			Events.TUESDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}
-		else if(day=="Wednesday") {
-			Events.WEDNESDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}
-		else if(day=="Thursday") {
-			Events.THURSDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}
+		return llc;	
 	}
-	
-}
+		
+		
+	}
+/*
+ * Lunch
+ * Tuesday
+ * 13:30
+ * 
+ * Dinner
+ * Tuesday
+ *///19:00
+
+
+
+
+
+
 //sign out of github next time

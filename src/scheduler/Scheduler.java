@@ -118,7 +118,6 @@ remove.setText("Remove Events");
 				time=(hour*60)+min;
 				eventadd(addday);
 				Events.TUESDAY.getlist().print();
-				eventsort(addday);
 				//eventsort(addday);
 				
 			}//sign out of github next time
@@ -166,22 +165,22 @@ remove.setText("Remove Events");
 	}
 	
 	public LinkedList<String> eventsort(String day) {
-		
+		System.out.println("START----");
 		boolean rerun = true;
 		LinkedList<String> ll=null;
-		LinkedList<String> llc = new LinkedList<String>();
+		do {
+		
+		
 		Node<String> nd=null;
-		Node<String> llcn = null;
 		int[] times=null;
 		int time;
 		//if(day=="Tuesday") {
 			ll=Events.TUESDAY.getlist();
 			times = new int[ll.size()];
 			nd=Events.TUESDAY.getlist().getHead();
-			llcn=ll.getHead();
 	//	}
 		
-			do {
+			
 				
 				
 				
@@ -196,52 +195,53 @@ remove.setText("Remove Events");
 					times[i]=time;
 					nd=nd.getNext();
 				}
+				nd=Events.TUESDAY.getlist().getHead();
 				
-				for(int i =0; i<ll.size()-1; i++) {
-					if(rerun) {
-						rerun=false;
-						
-						//llc.add(llcn.getValue());
-					
-					System.out.println("!si!");
+				System.out.println("check 1");
+				int rep=ll.size();
+				rerun=false;
+				ll=new LinkedList<String>();
+				for(int i=0; i<rep-1; i++) {
+			
+					System.out.println("check 2");
+					System.out.println("sorta " +i+" "+rep);
+							
 					if(times[i]>times[i+1]) {
-						System.out.println("Jaa");
-						int placehold = times[i];
+						System.out.println("truth");
+						rerun=true;
+						time=times[i];
 						times[i]=times[i+1];
-						times[i+1]=placehold;
+						times[i+1]=time;
 						
-						if(i!=0) {
-							llc.setHead(ll.getHead());
-							 llcn=llc.getHead();
-						for(int j=1; j<=i; j++) {
-							llcn=llcn.getNext();
-							llc.add(llcn.getValue());
-						}
-						llcn=llcn.getNext();
-						llc.add(llcn.getNext().getValue());
-						llc.add(llcn.getValue());
-						llcn=llcn.getNext();
-					}
-					rerun=true;
-					
-						
+						ll.add(nd.getNext().getValue());
+						System.out.println("added");
+						nd=nd.getNext();
+						ll.add(nd.getPrev().getValue());
 					}
 					else {
-						llc.add(llcn.getValue());
+					ll.add(nd.getValue());
+					System.out.println("added");
 					}
-					llcn=llcn.getNext();
-					llc.add(llcn.getValue());
-					}
+					nd=nd.getNext();
+					ll.print();
+					System.out.println("loop\n****");
+				}
+				if(!rerun) {
+					ll.add(nd.getValue());
+				}
 				
 				
-			}
-			
-			}while(rerun=false);
+				Events.TUESDAY.setlist(ll);
+				//if the one ahead is smaller, put that one first
+				//rerun times
+		}while (rerun);
 		
-		return llc;	
+		return ll;	
+	
+		
 	}
-		
-		
+	
+	
 	}
 /*
  * Lunch

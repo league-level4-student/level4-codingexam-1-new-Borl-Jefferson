@@ -18,5 +18,8 @@ public enum Events {
 		ll.add(str);
 		
 	}
+	public void setlist(LinkedList list) {
+		ll=list;
+	}
 
 }

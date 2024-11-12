@@ -9,6 +9,7 @@ import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -90,7 +91,19 @@ remove.setText("Remove Events");
 		// TODO Auto-generated method stub
 		System.out.println(next);
 		if(e.getSource()==view) {
+			
 			eventsort("Tuesday").print();
+			System.out.println("\n\n\nFin");
+			Events.TUESDAY.getlist().print();
+		//JOptionPane.showMessageDialog(null, eventsort("Tuesday").toString());
+		
+		}
+		if(e.getSource()==remove) {
+			Events.TUESDAY.addtolist("\n" + "0Dinner" + " on " + "Tuesday" + ":"+"19:00");
+			Events.TUESDAY.addtolist("\n" + "1Breakfast" + " on " + "Tuesday" + ":"+"8:30");
+			Events.TUESDAY.addtolist("\n" + "2Lunch" + " on " + "Tuesday" + ":"+"13:15");
+			Events.TUESDAY.getlist().print();
+			System.out.println("//filled\\\\");
 		}
 		if(e.getSource()==add) {//sign out of github next time
 			jetf.setText("Event name");
@@ -196,7 +209,6 @@ remove.setText("Remove Events");
 					nd=nd.getNext();
 				}
 				nd=Events.TUESDAY.getlist().getHead();
-				
 				System.out.println("check 1");
 				int rep=ll.size();
 				rerun=false;
@@ -204,30 +216,35 @@ remove.setText("Remove Events");
 				for(int i=0; i<rep-1; i++) {
 			
 					System.out.println("check 2");
-					System.out.println("sorta " +i+" "+rep);
-							
-					if(times[i]>times[i+1]) {
+					System.out.print("sorta " +i+" "+rep);
+					System.out.println(" || Current "+nd.getValue());
+					if(times[i]>times[i+1] && i+1<rep-1) {
+						System.out.println("\n[][][][][]\nCurrent = "+nd.getValue()+" }{ timesi = " + times[i]+ "\n Next = "+nd.getNext().getValue()+" }{ timesi-1 "+times[i+1]+"\n[][][][][]");
 						System.out.println("truth");
 						rerun=true;
 						time=times[i];
 						times[i]=times[i+1];
 						times[i+1]=time;
-						
+						System.out.print(nd.getValue() +" next> ");
+						System.out.println(nd.getNext().getValue());
 						ll.add(nd.getNext().getValue());
 						System.out.println("added");
+						ll.add(nd.getValue());
 						nd=nd.getNext();
-						ll.add(nd.getPrev().getValue());
+						i++;
 					}
 					else {
 					ll.add(nd.getValue());
 					System.out.println("added");
-					}
 					nd=nd.getNext();
-					ll.print();
-					System.out.println("loop\n****");
-				}
-				if(!rerun) {
+					}
 					ll.add(nd.getValue());
+					
+					ll.print();
+					System.out.println(i + "<i rep> "+(rep-1)+" loop\n****");
+				}System.out.println("BIG loooop");
+				if(!rerun) {
+					ll.add(nd.getNext().getValue());
 				}
 				
 				

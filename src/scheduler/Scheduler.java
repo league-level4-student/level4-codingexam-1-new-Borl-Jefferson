@@ -2,6 +2,7 @@ package scheduler;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -59,7 +60,7 @@ new Scheduler().setup();
     }//sign out of github next time
     void setup(){//sign out of github next time
     	JPanel jepp = new JPanel();
-
+int save;
     	
 jepp.add(jetf);
 jepp.add(add);
@@ -99,9 +100,11 @@ remove.setText("Remove Events");
 		
 		}
 		if(e.getSource()==remove) {
-			Events.TUESDAY.addtolist("\n" + "0Dinner" + " on " + "Tuesday" + ":"+"19:00");
-			Events.TUESDAY.addtolist("\n" + "1Breakfast" + " on " + "Tuesday" + ":"+"8:30");
-			Events.TUESDAY.addtolist("\n" + "2Lunch" + " on " + "Tuesday" + ":"+"13:15");
+			advsort("\n" + "3Dinner" + " on " + "Tuesday" + ":"+"19:00");
+			advsort("\n" + "1Breakfast" + " on " + "Tuesday" + ":"+"8:30");
+			advsort("\n" + "2Lunch" + " on " + "Tuesday" + ":"+"13:15");
+			advsort("\n" + "4WakeUp" + " on " + "Tuesday" + ":"+"6:15");
+			advsort("\n" + "0Sleep" + " on " + "Tuesday" + ":"+"23:30");
 			Events.TUESDAY.getlist().print();
 			System.out.println("//filled\\\\");
 		}
@@ -177,15 +180,69 @@ remove.setText("Remove Events");
 		}*/
 	}
 	
+	public void advsort(String day) {
+		
+
+		Events.TUESDAY.addtolist(day);
+		LinkedList<String> ll=Events.TUESDAY.getlist();
+		int[] times=new int[ll.size()];
+		Node<String> nd=ll.getHead();
+		int time=0;
+		System.out.println(ll.size() + " <- size");
+		ll.print();
+		if(ll.size()>1) {
+			System.out.println("\n--time--\n");
+		//time sort
+		for(int i =0; i<ll.size(); i++) {
+			String st = nd.getValue();
+			System.out.println("dfgergs | " +st);
+			String[] split = st.split(":");
+			int hour = Integer.parseInt(split[1]);
+			int min = Integer.parseInt(split[2]);
+			System.out.println("it is " + hour + " hours and "+min+" minutes");
+			System.out.println((hour*60)+min);
+			time=(hour*60)+min;
+			System.out.println(time);
+			times[i]=time;
+			nd=nd.getNext();
+		}
+		System.out.println("\n--setup--\n");
+		//setup
+		ll=null;
+		boolean last=true;
+		System.out.println("\n--loop--\n");
+		for (int i = 0; i < times.length-1; i++) {
+			System.out.println("ran");
+		if(times[i]>times[i+1]) {
+			last=false;
+			ll.add(day);
+		}
+		ll.add(nd.getValue());
+		nd=nd.getNext();
+		}
+		if(last) {
+			ll.add(day);
+		}
+		}else {
+			nd.setValue(day);
+			ll.setHead(nd);
+		}
+		ll.print();
+		Events.TUESDAY.setlist(ll);
+		
+		
+		
+	}
+	
 	public LinkedList<String> eventsort(String day) {
 		System.out.println("START----");
 		boolean rerun = true;
 		LinkedList<String> ll=null;
+		int[] times=null;
 		do {
 		
 		
 		Node<String> nd=null;
-		int[] times=null;
 		int time;
 		//if(day=="Tuesday") {
 			ll=Events.TUESDAY.getlist();
@@ -196,7 +253,7 @@ remove.setText("Remove Events");
 			
 				
 				
-				
+				//sorts the time values
 				for(int i =0; i<ll.size(); i++) {
 					String st = nd.getValue();
 					System.out.println("dfgergs | " +st);
@@ -208,51 +265,58 @@ remove.setText("Remove Events");
 					times[i]=time;
 					nd=nd.getNext();
 				}
+				//sets up the loop
+				System.out.println("\n\n--STARTING--\n\n");
 				nd=Events.TUESDAY.getlist().getHead();
 				System.out.println("check 1");
 				int rep=ll.size();
 				rerun=false;
 				ll=new LinkedList<String>();
+				
+				
 				for(int i=0; i<rep-1; i++) {
+					rerun=false;
+			if(ll.size()>10) {
+				JOptionPane.showMessageDialog(null, "Uh oh!");
 			
-					System.out.println("check 2");
-					System.out.print("sorta " +i+" "+rep);
-					System.out.println(" || Current "+nd.getValue());
-					if(times[i]>times[i+1] && i+1<rep-1) {
-						System.out.println("\n[][][][][]\nCurrent = "+nd.getValue()+" }{ timesi = " + times[i]+ "\n Next = "+nd.getNext().getValue()+" }{ timesi-1 "+times[i+1]+"\n[][][][][]");
-						System.out.println("truth");
-						rerun=true;
-						time=times[i];
-						times[i]=times[i+1];
-						times[i+1]=time;
-						System.out.print(nd.getValue() +" next> ");
-						System.out.println(nd.getNext().getValue());
-						ll.add(nd.getNext().getValue());
-						System.out.println("added");
-						ll.add(nd.getValue());
-						nd=nd.getNext();
-						i++;
-					}
-					else {
-					ll.add(nd.getValue());
-					System.out.println("added");
-					nd=nd.getNext();
-					}
-					ll.add(nd.getValue());
-					
-					ll.print();
+			}
+			
+			//actual code for loop	
+			
+			//swapping
+			if(times[i]>times[i+1]) {
+				rerun=false;
+				System.out.println("truth | " + times[i] + " i /\\ i+1 "+times[i+1]);
+				int temp = times[i];
+				times[i]=times[i+1];
+				times[i+1]=temp;
+				ll.add(nd.getNext().getValue());
+				System.out.println("Adding "+nd.getNext().getValue()+"\n^^1t^^");
+				ll.add(nd.getValue());
+				System.out.println("Adding "+nd.getValue()+"\n^^2t^^");
+				nd=nd.getNext();
+				nd=nd.getNext();
+			}
+			else {
+				System.out.println("false");
+				ll.add(nd.getValue());
+				nd=nd.getNext();
+				System.out.println("Adding "+nd.getValue()+"\n^^el^^");
+			}
+			
 					System.out.println(i + "<i rep> "+(rep-1)+" loop\n****");
 				}System.out.println("BIG loooop");
-				if(!rerun) {
-					ll.add(nd.getNext().getValue());
-				}
+				
+				
 				
 				
 				Events.TUESDAY.setlist(ll);
 				//if the one ahead is smaller, put that one first
 				//rerun times
 		}while (rerun);
-		
+		for (int i = 0; i < times.length; i++) {
+			System.out.println(times[i]);
+		}
 		return ll;	
 	
 		

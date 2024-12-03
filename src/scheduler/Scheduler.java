@@ -56,6 +56,8 @@ String timeparse;
 int addtime;
 
     public static void main(String[] args) {//sign out of github next time
+    	JOptionPane.showMessageDialog(null, 
+    			"Adding and sorting work. \nRemoval needs to be added, along with the exception");
 new Scheduler().setup();
     }//sign out of github next time
     void setup(){//sign out of github next time
@@ -92,21 +94,25 @@ remove.setText("Remove Events");
 		// TODO Auto-generated method stub
 		System.out.println(next);
 		if(e.getSource()==view) {
-			
-			eventsort("Tuesday").print();
-			System.out.println("\n\n\nFin");
+			System.out.println("\n__Monday__");
+			Events.MONDAY.getlist().print();
+			System.out.println("\n__Tuesday__");
 			Events.TUESDAY.getlist().print();
+			System.out.println("\n__Wednesday__");
+			Events.WEDNESDAY.getlist().print();
+			System.out.println("\n__Thursday__");
+			Events.THURSDAY.getlist().print();
+			System.out.println("\n__Friday__");
+			Events.FRIDAY.getlist().print();
+			System.out.println("\n__Saturday__");
+			Events.SATURDAY.getlist().print();
+			System.out.println("\n__Sunday__");
+			Events.SUNDAY.getlist().print();
 		//JOptionPane.showMessageDialog(null, eventsort("Tuesday").toString());
 		
 		}
 		if(e.getSource()==remove) {
-			advsort("\n" + "3Dinner" + " on " + "Tuesday" + ":"+"19:00");
-			advsort("\n" + "1Breakfast" + " on " + "Tuesday" + ":"+"8:30");
-			advsort("\n" + "2Lunch" + " on " + "Tuesday" + ":"+"13:15");
-			advsort("\n" + "4WakeUp" + " on " + "Tuesday" + ":"+"6:15");
-			advsort("\n" + "0Sleep" + " on " + "Tuesday" + ":"+"23:30");
-			Events.TUESDAY.getlist().print();
-			System.out.println("//filled\\\\");
+			JOptionPane.showMessageDialog(null, "Work on removal functionality");
 		}
 		if(e.getSource()==add) {//sign out of github next time
 			jetf.setText("Event name");
@@ -128,11 +134,12 @@ remove.setText("Remove Events");
 				jetf.setVisible(false);
 				 timeparse=jetf.getText();
 				
-				String[] times = timeparse.split(":");
+			/*	String[] times = timeparse.split(":");
 				int hour = Integer.parseInt(times[0]);
 				int min = Integer.parseInt(times[1]);
-				time=(hour*60)+min;
-				eventadd(addday);
+				time=(hour*60)+min; */
+				String submit = "\n" + addname + " on " + addday + ":" + timeparse;
+				eventadd(submit);
 				Events.TUESDAY.getlist().print();
 				//eventsort(addday);
 				
@@ -154,37 +161,85 @@ remove.setText("Remove Events");
 	}//sign out of github next time
 	
 	public void eventadd(String day) {
-		System.out.println(day);
-	/*	if(day=="Friday") {
-			Events.FRIDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}
-		else if(day=="Saturday") {
-			Events.SATURDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}
-		else if(day=="Sunday") {
-			Events.SUNDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}
-		else if(day=="Monday") {
-			Events.MONDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}
-		else if(day=="Tuesday") {*/
-			System.out.println("works");
-			Events.TUESDAY.addtolist("\n" + addname + " on " + addday + ":"+timeparse);
-			
-		/*}
-		else if(day=="Wednesday") {
-			Events.WEDNESDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}
-		else if(day=="Thursday") {
-			Events.THURSDAY.getlist().add(addname + "\n" + addday + ": "+timeparse);
-		}*/
-	}
-	
-	public void advsort(String day) {
+		System.out.println(day + "day");
+		String date=day.substring(day.indexOf("on ")+3, day.indexOf(":"));
+		System.out.println(date);
 		
-
-		Events.TUESDAY.addtolist(day);
-		LinkedList<String> ll=Events.TUESDAY.getlist();
+		//eventadd("\n" + "Breakfast" + " on " + "Tuesday" + ":"+"8:30");
+		
+		System.out.println("Tuesday");
+		if(date.equals("Friday")) {
+			advsort(day, "Friday");
+		}
+		else if(date.equals("Saturday")) {
+			advsort(day, "Saturday");
+		}
+		else if(date.equals("Sunday")) {
+			advsort(day, "Sunday");
+		}
+		else if(date.equals("Monday")) {
+			advsort(day, "Monday");
+		}
+		else if(date.equals("Tuesday")) {
+			System.out.println("good");
+			advsort(day, "Tuesday");
+		}
+		else if(date.equals("Wednesday")) {
+			advsort(day, "Wednesday");
+		}
+		else if(date.equals("Thursday")) {
+			advsort(day, "Thursday");
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Date not recognized: "+date+"\nFirst letter has to be capitilized");
+			}
+		}
+	
+	
+	public void advsort(String day, String date) {
+		System.out.println("\n==new==\n");
+boolean last=true;
+int daytime=0;
+boolean first = true;
+		LinkedList<String> ll;
+		String retry = "";
+		
+		//LinkedList<String> ll=Events.TUESDAY.getlist();
+		
+		if(date=="Friday") {
+			ll=Events.FRIDAY.getlist();
+			Events.FRIDAY.addtolist(day);
+		}
+		else if(date=="Saturday") {
+			ll=Events.SATURDAY.getlist();
+			Events.SATURDAY.addtolist(day);
+		}
+		else if(date=="Sunday") {
+			ll=Events.SUNDAY.getlist();
+			Events.SUNDAY.addtolist(day);
+		}
+		else if(date=="Monday") {
+			ll=Events.MONDAY.getlist();
+			Events.MONDAY.addtolist(day);
+		}
+		else if(date=="Tuesday") {
+			ll=Events.TUESDAY.getlist();
+			Events.TUESDAY.addtolist(day);
+		}
+		else if(date=="Wednesday") {
+			ll=Events.WEDNESDAY.getlist();
+			Events.WEDNESDAY.addtolist(day);
+		}
+		else if(date=="Thursday") {
+			ll=Events.THURSDAY.getlist();
+			Events.THURSDAY.addtolist(day);
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "The code shouldn't have gotten to this point");
+			ll=null;
+		}
+		
+		
 		int[] times=new int[ll.size()];
 		Node<String> nd=ll.getHead();
 		int time=0;
@@ -195,42 +250,88 @@ remove.setText("Remove Events");
 		//time sort
 		for(int i =0; i<ll.size(); i++) {
 			String st = nd.getValue();
-			System.out.println("dfgergs | " +st);
+			System.out.println(st);
 			String[] split = st.split(":");
 			int hour = Integer.parseInt(split[1]);
 			int min = Integer.parseInt(split[2]);
 			System.out.println("it is " + hour + " hours and "+min+" minutes");
 			System.out.println((hour*60)+min);
 			time=(hour*60)+min;
-			System.out.println(time);
 			times[i]=time;
 			nd=nd.getNext();
 		}
+		System.out.println("\n--daytime--\n");
+		//daytime
+		String[] split = day.split(":");
+		int hour = Integer.parseInt(split[1]);
+		int min = Integer.parseInt(split[2]);
+		System.out.println("it is " + hour + " hours and "+min+" minutes");
+		daytime=(hour*60)+min;
+		System.out.println(daytime);
 		System.out.println("\n--setup--\n");
 		//setup
-		ll=null;
-		boolean last=true;
+		nd=ll.getHead();
+		ll=new LinkedList<String>();
+		
 		System.out.println("\n--loop--\n");
+		//loop
+		last=true;
+		
+				
 		for (int i = 0; i < times.length-1; i++) {
+			
 			System.out.println("ran");
-		if(times[i]>times[i+1]) {
+		if(times[i]>daytime && last==true) {
+			if(nd.getValue()!=day) {
+			System.out.println("true");
 			last=false;
 			ll.add(day);
+			}else {
+				//IMPORTANT
+				
+				
+				//ADD THE EXCEPTION THING
+				
+				
+				//throw(SchedulingConflictException);
+			}
 		}
+		System.out.println("defualt");
 		ll.add(nd.getValue());
 		nd=nd.getNext();
 		}
 		if(last) {
+			System.out.println("last");
 			ll.add(day);
 		}
 		}else {
+			
 			nd.setValue(day);
 			ll.setHead(nd);
 		}
+		System.out.println("==Finished==");
 		ll.print();
-		Events.TUESDAY.setlist(ll);
-		
-		
+		if(date=="Friday") {
+			Events.FRIDAY.setlist(ll);
+		}
+		else if(date=="Saturday") {
+			Events.SATURDAY.setlist(ll);
+		}
+		else if(date=="Sunday") {
+			Events.SUNDAY.setlist(ll);
+		}
+		else if(date=="Monday") {
+			Events.MONDAY.setlist(ll);
+		}
+		else if(date=="Tuesday") {
+			Events.TUESDAY.setlist(ll);
+		}
+		else if(date=="Wednesday") {
+			Events.WEDNESDAY.setlist(ll);
+		}
+		else if(date=="Thursday") {
+			Events.THURSDAY.setlist(ll);
+		}
 		
 	}
 	

@@ -48,20 +48,33 @@ JButton remove = new JButton();
 JTextField jetf = new JTextField();
 int next;
 JButton other = new JButton();
-
+JPanel jepp = new JPanel();
 
 String addname;
 String addday;
 String timeparse;
 int addtime;
 
+String datetoremove="";
+
+ArrayList<JButton> jbs = new ArrayList<JButton>();
+
+JButton mo = new JButton();
+JButton tu = new JButton();
+JButton we = new JButton();
+JButton th = new JButton();
+JButton fr = new JButton();
+JButton sa = new JButton();
+JButton su = new JButton();
+LinkedList ll;
+
+boolean removerun=false;
     public static void main(String[] args) {//sign out of github next time
-    	JOptionPane.showMessageDialog(null, 
-    			"Adding and sorting work. \nRemoval needs to be added, along with the exception");
+
 new Scheduler().setup();
     }//sign out of github next time
     void setup(){//sign out of github next time
-    	JPanel jepp = new JPanel();
+    	
 int save;
     	
 jepp.add(jetf);
@@ -81,6 +94,16 @@ remove.addActionListener(this);
 view.addActionListener(this);
 other.addActionListener(this);
 
+mo.addActionListener(this);
+tu.addActionListener(this);
+we.addActionListener(this);
+th.addActionListener(this);
+fr.addActionListener(this);
+sa.addActionListener(this);
+su.addActionListener(this);
+
+
+
 other.setVisible(false);
 
 jetf.setVisible(false);
@@ -92,6 +115,70 @@ remove.setText("Remove Events");
 	@Override
 	public void actionPerformed(ActionEvent e) {//sign out of github next time
 		// TODO Auto-generated method stub
+		boolean stoploop = false;
+while(removerun) {
+	//if you run out of time just end loop once stoploop=true
+	//current problem is code that should run if stoploop==true doesn't run
+	
+	other.setVisible(true);
+	other.setText("To home");
+			for (int i = 0; i < jbs.size(); i++) {
+				if(e.getSource()==jbs.get(i) && stoploop==false) {
+					
+					System.out.println("removed "+i +"    size "+jbs.size() + "      ll " + ll.size() + "      stoploop "+stoploop);
+					
+					jbs.get(i).setVisible(false);
+					ll.remove(i);
+					stoploop=true;
+					i=9999;
+				}
+				
+			}
+			
+			if(datetoremove.equals("mo")) {
+				Events.MONDAY.setlist(ll);
+			}
+			if(datetoremove.equals("tu")) {
+				Events.TUESDAY.setlist(ll);
+			}
+			if(datetoremove.equals("we")) {
+				Events.WEDNESDAY.setlist(ll);
+			}
+			if(datetoremove.equals("th")) {
+				Events.THURSDAY.setlist(ll);
+			}
+			if(datetoremove.equals("fr")) {
+				Events.FRIDAY.setlist(ll);
+			}
+			if(datetoremove.equals("sa")) {
+				Events.SATURDAY.setlist(ll);
+			}
+			if(datetoremove.equals("su")) {
+				Events.SUNDAY.setlist(ll);
+			}
+			if(stoploop) {
+				for (int i = 0; i < jbs.size(); i++) {
+					jbs.get(i).setVisible(false);
+					System.out.println("works2 ");
+				}
+				remove.setText("Remove more");
+				remove.setVisible(true);
+			}
+			if(e.getSource()==other) {
+				removerun=false;
+				
+				jbs=null;
+				add.setVisible(true);
+				remove.setVisible(true);
+				view.setVisible(true);
+				other.setVisible(false);
+			}
+			if(e.getSource()==remove) {
+				System.out.println("\n\n\nbad stuff");
+				stoploop=false;
+			}
+			
+		}
 		System.out.println(next);
 		if(e.getSource()==view) {
 			System.out.println("\n__Monday__");
@@ -112,10 +199,72 @@ remove.setText("Remove Events");
 		
 		}
 		if(e.getSource()==remove) {
-			JOptionPane.showMessageDialog(null, "Work on removal functionality");
+			
+			jepp.add(mo);
+			jepp.add(tu);
+			jepp.add(we);
+			jepp.add(th);
+			jepp.add(fr);
+			jepp.add(sa);
+			jepp.add(su);
+			bob.add(jepp);
+			bob.pack();
+			mo.setText("Monday");
+			tu.setText("Tuesday");
+			we.setText("Wednesday");
+			th.setText("Thursday");
+			fr.setText("Friday");
+			sa.setText("Saturday");
+			su.setText("Sunday");
+
+			mo.setVisible(true);
+			tu.setVisible(true);
+			we.setVisible(true);
+			th.setVisible(true);
+			fr.setVisible(true);
+			sa.setVisible(true);
+			su.setVisible(true);
+			view.setVisible(false);
+			add.setVisible(false);
+			remove.setVisible(false);
+			
+			
+			
+			
+			
 		}
+		if(e.getSource()==fr) {
+			removecode(Events.FRIDAY.getlist());
+			datetoremove="fr";
+		}
+		else if(e.getSource()==sa) {
+			removecode(Events.SATURDAY.getlist());
+			datetoremove="sa";
+		}
+		else if(e.getSource()==su) {
+			removecode(Events.SUNDAY.getlist());
+			datetoremove="su";
+		}
+		else if(e.getSource()==mo) {
+			removecode(Events.MONDAY.getlist());
+			datetoremove="mo";
+		}
+		else if(e.getSource()==tu) {
+			removecode(Events.TUESDAY.getlist());
+			datetoremove="tu";
+		}
+		else if(e.getSource()==we) {
+			removecode(Events.WEDNESDAY.getlist());
+			datetoremove="we";
+		}
+		else if(e.getSource()==th) {
+			removecode(Events.THURSDAY.getlist());
+			datetoremove="th";
+		}
+		
 		if(e.getSource()==add) {//sign out of github next time
-			jetf.setText("Event name");
+			
+			/*jetf.setText("Event name");
 			add.setVisible(false);
 			remove.setVisible(false);
 			view.setVisible(false);
@@ -123,7 +272,13 @@ remove.setText("Remove Events");
 			other.setText("Enter");
 			jetf.setVisible(true);
 			next=1;
-			System.out.println(next);
+			System.out.println(next);*/
+			eventadd("\n" + "Breakfast" + " on " + "Tuesday" + ":"+"8:30");
+			eventadd("\n" + "Lunch" + " on " + "Tuesday" + ":"+"13:30");
+			eventadd("\n" + "Work" + " on " + "Wednesday" + ":"+"9:45");
+			eventadd("\n" + "Wake up" + " on " + "Friday" + ":"+"7:20");
+			eventadd("\n" + "Sleep" + " on " + "Friday" + ":"+"23:30");
+			eventadd("\n" + "Dinner" + " on " + "Friday" + ":"+"21:15");
 		}//sign out of github next time
 		else if(e.getSource()==other) {//sign out of github next time
 			if(next==3) {//sign out of github next time
@@ -160,12 +315,46 @@ remove.setText("Remove Events");
 		}//sign out of github next time
 	}//sign out of github next time
 	
+	public void removecode(LinkedList ll) {
+		if(ll.size()>0) {
+		
+		
+		mo.setVisible(false);
+		tu.setVisible(false);
+		we.setVisible(false);
+		th.setVisible(false);
+		fr.setVisible(false);
+		sa.setVisible(false);
+		su.setVisible(false);
+		
+		Node nd = ll.getHead();
+		
+		for (int i = 0; i < ll.size(); i++) {
+			jbs.add(i, new JButton());
+			jbs.get(i).setVisible(true);
+			jbs.get(i).addActionListener(this);
+			jbs.get(i).setText(nd.getValue().toString());
+			jepp.add(jbs.get(i));
+			nd=nd.getNext();
+			this.ll=ll;
+		}
+		removerun = true;
+		}else {
+			JOptionPane.showMessageDialog(null, "No items in list");
+		}
+		 
+		
+		
+	}
+	
 	public void eventadd(String day) {
+		
+		
 		System.out.println(day + "day");
 		String date=day.substring(day.indexOf("on ")+3, day.indexOf(":"));
 		System.out.println(date);
 		
-		//eventadd("\n" + "Breakfast" + " on " + "Tuesday" + ":"+"8:30");
+		
 		
 		System.out.println("Tuesday");
 		if(date.equals("Friday")) {
